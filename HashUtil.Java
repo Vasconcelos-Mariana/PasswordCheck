@@ -21,9 +21,5 @@ public class HashUtil {
             System.out.println("Erro ao aplicar hash: " + e.getMessage());      //exception (forced by jv)
             return null;
         }
-
-        public static void main(String[] args) {
-            System.out.println(hash("1234"));           //Quick testing
-            }
     }
 }

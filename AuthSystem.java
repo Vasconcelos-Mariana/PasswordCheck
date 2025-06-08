@@ -17,7 +17,7 @@ public class AuthSystem {
     public AuthSystem() {loadUsers();}                              // Constructor: loads existing users from file
 
     
-    private void loadUsers() {
+    private void loadUsers() {                                      //Loading the info from users
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
 
@@ -45,8 +45,30 @@ public class AuthSystem {
         catch (IOException e) {
         System.out.println("Error saving users: " + e.getMessage());
     }
-}                                    
-    public void registerUser(String username, String password) {}   // Register a new user if username doesn't exist
+}                            
+
+    public void registerUser(String username, String password) {     // Register a new user if username doesn't exist
+        if (users.containsKey(username)) {
+            System.out.println("Username already exists.");
+            return;}
+    
+        String passwordHash = HashUtil.hash(password);              // Hash the password using HashUtil   
+
+        User newUser = new User(username, passwordHash,             // Create a new user with 0 failed attempts and not blocked
+        0, false); 
+
+        users.put(username, newUser);                               // Add to memory
+
+        saveUsers();
+
+        System.out.println("User registered successfully.");
+}
+
+
+
+      
+
+
 
     
     public void loginUser(String username, String password) {}      // Login attempt: checks password and handles failed attempts
