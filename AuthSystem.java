@@ -9,7 +9,7 @@ import java.util.*;
 public class AuthSystem {
 
     private static final String FILE_PATH = "users.txt";            // File where user data is stored
-    private static final int MAX_ATTEMPTS = 4;                      // Max login attempts before user is blocked
+    public static final int MAX_ATTEMPTS = 4;                       // Max login attempts before user is blocked
 
    
     private Map<String, User> users = new HashMap<>();              // Stores all users in memory (key = username)
@@ -79,7 +79,7 @@ public class AuthSystem {
 
     if (user.getPasswordHash().equals(inputHash)) {
         System.out.println("Login successful.");
-        user.setFailedAttempts(0);          // resetting the failed attemmps after sucessful login
+        user.setFailedAttempts(0);          // resetting the failed attempts after sucessful login
     } 
     
     else {
@@ -87,10 +87,34 @@ public class AuthSystem {
         user.setFailedAttempts(user.getFailedAttempts() + 1);
 
         
-    if (user.getFailedAttempts() >= MAX_ATTEMPTS) {       // Block after X attemps
+    if (user.getFailedAttempts() >= MAX_ATTEMPTS) {       // Block after X attempts
         user.setBlocked(true);
         System.out.println("User has been blocked due to too many failed attempts.");}
     }
     saveUsers();
     }
+
+    public User getUser(String username) {
+    return users.get(username);}
+
+    public boolean loginUserAndReturnStatus(String username, String password) {
+    User user = users.get(username);
+    String inputHash = HashUtil.hash(password);
+
+    if (user.getPasswordHash().equals(inputHash)) {
+        System.out.println("Login successful.");
+        user.setFailedAttempts(0);
+        saveUsers();
+        return true;
+    } else {
+        System.out.println("Incorrect password.");
+        user.setFailedAttempts(user.getFailedAttempts() + 1);
+        if (user.getFailedAttempts() >= MAX_ATTEMPTS) {
+            user.setBlocked(true);
+            System.out.println("User blocked.");
+        }
+        saveUsers();
+        return false;
+    }
+}
 }
