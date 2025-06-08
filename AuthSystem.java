@@ -19,8 +19,15 @@ public class AuthSystem {
     
     private void loadUsers() {}                                     // Load users from the file into memory 
 
-    private void saveUsers() {}                                     // Save users from memory into the file 
-
+    private void saveUsers() {                                      // Save users from memory into the file 
+        try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_PATH))) {
+            for (User user : users.values()) {writer.println(user.toString());}
+        } 
+        
+        catch (IOException e) {
+        System.out.println("Error saving users: " + e.getMessage());
+    }
+}                                    
     public void registerUser(String username, String password) {}   // Register a new user if username doesn't exist
 
     
