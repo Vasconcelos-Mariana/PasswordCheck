@@ -17,7 +17,25 @@ public class AuthSystem {
     public AuthSystem() {loadUsers();}                              // Constructor: loads existing users from file
 
     
-    private void loadUsers() {}                                     // Load users from the file into memory 
+    private void loadUsers() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {           // Reading every line of the file
+            User user = User.fromString(line);                     // Converting in object User
+            users.put(user.getUsername(), user);}                  // Adding to the map of users
+        } 
+        
+        catch (FileNotFoundException e) {                          // If not data = News data 
+        System.out.println(
+            "No user file found. Starting with empty user list.");
+        } 
+        
+        catch (IOException e) {                                    // Other possible errors
+        System.out.println(
+        "Error reading user file: " + e.getMessage());
+        }
+}
 
     private void saveUsers() {                                      // Save users from memory into the file 
         try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_PATH))) {
