@@ -14,7 +14,7 @@ public class User {
     public User(String username, String passwordHash, int failedAttempts, boolean blocked){
         this.username = username;
         this.passwordHash = passwordHash;
-        this.failedAttemps = failedAttemps;
+        this.failedAttempts = failedAttempts;
         this.blocked = blocked;
     }
 
@@ -24,7 +24,7 @@ public class User {
     public int getFailedAttempts() {return failedAttempts;}
     public boolean isBlocked() {return blocked;}
 
-    public void setFailedAttemps (int failedAttemps) {this.failedAttemps = failedAttemps;}
+    public void setFailedAttempts (int failedAttempts) {this.failedAttempts = failedAttempts;}
     public void setBlocked (boolean blocked) {this.blocked = blocked;}
 
 
