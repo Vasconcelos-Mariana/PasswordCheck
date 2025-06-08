@@ -4,6 +4,6 @@
 public class Main {
     public static void main(String[] args) {
         AuthSystem auth = new AuthSystem();
-        auth.registerUser("joao", "1234");
+        auth.loginUser("joao", "1234");  // ou tenta com password errada
     }
 }

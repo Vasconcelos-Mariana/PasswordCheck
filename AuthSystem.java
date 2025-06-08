@@ -64,14 +64,33 @@ public class AuthSystem {
         System.out.println("User registered successfully.");
 }
 
-
-
-      
-
-
+    public void loginUser(String username, String password) {        // Login attempt: checks password and handles failed attempts
+        User user = users.get(username);
 
     
-    public void loginUser(String username, String password) {}      // Login attempt: checks password and handles failed attempts
+    if (user == null) {System.out.println("User not found.");return;}                   // Case 1: User does not exist
+    
+    if (user.isBlocked()) {
+        System.out.println("User is blocked due to too many failed attempts.");         // Case 2: User is blocked 
+        return;}
+
+    
+    String inputHash = HashUtil.hash(password);                                           // Case 3: 1 and 2 okay , Verify password hash
+
+    if (user.getPasswordHash().equals(inputHash)) {
+        System.out.println("Login successful.");
+        user.setFailedAttempts(0);          // resetting the failed attemmps after sucessful login
+    } 
+    
+    else {
+        System.out.println("Incorrect password.");
+        user.setFailedAttempts(user.getFailedAttempts() + 1);
+
+        
+    if (user.getFailedAttempts() >= MAX_ATTEMPTS) {       // Block after X attemps
+        user.setBlocked(true);
+        System.out.println("User has been blocked due to too many failed attempts.");}
+    }
+    saveUsers();
+    }
 }
-
-
